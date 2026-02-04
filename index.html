@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KI-Consulting ROI Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-900">
+
+    <!-- Header Section -->
+    <header class="gradient-bg text-white py-12 px-6 shadow-lg">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Claude & KI-Consulting ROI</h1>
+            <p class="text-xl opacity-90">Interaktive Übersicht der profitabelsten Branchen und Anwendungsfälle.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 -mt-8 pb-20">
+        
+        <!-- Top Industry Ranking -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-600 card-hover">
+                    <span class="text-xs font-bold text-blue-600 uppercase">#1 Rang</span>
+                    <h3 class="text-lg font-bold">Steuerberater</h3>
+                    <p class="text-sm text-gray-500">ROI: Sofort</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-500 card-hover">
+                    <span class="text-xs font-bold text-blue-500 uppercase">#2 Rang</span>
+                    <h3 class="text-lg font-bold">Hausverwaltung</h3>
+                    <p class="text-sm text-gray-500">ROI: 1-2 Mon.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-400 card-hover">
+                    <span class="text-xs font-bold text-blue-400 uppercase">#3 Rang</span>
+                    <h3 class="text-lg font-bold">Logistik</h3>
+                    <p class="text-sm text-gray-500">ROI: Schnell</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-300 card-hover">
+                    <span class="text-xs font-bold text-blue-300 uppercase">#4 Rang</span>
+                    <h3 class="text-lg font-bold">Handwerk</h3>
+                    <p class="text-sm text-gray-500">ROI: Mittel</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-200 card-hover">
+                    <span class="text-xs font-bold text-blue-200 uppercase">#5 Rang</span>
+                    <h3 class="text-lg font-bold">Architektur</h3>
+                    <p class="text-sm text-gray-500">ROI: Mittel</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case Explorer -->
+        <section class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12">
+            <div class="p-8 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold">Use Case Explorer</h2>
+                    <p class="text-gray-500">Filtere nach Branche, um spezifische Probleme und Lösungen zu sehen.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterUseCases('all')" class="filter-btn px-4 py-2 rounded-full bg-blue-600 text-white text-sm font-medium transition-colors">Alle</button>
+                    <button onclick="filterUseCases('Buchhaltung')" class="filter-btn px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors">Buchhaltung</button>
+                    <button onclick="filterUseCases('Immobilien/SV')" class="filter-btn px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors">Immobilien</button>
+                    <button onclick="filterUseCases('Logistik')" class="filter-btn px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors">Logistik</button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
+                            <th class="px-8 py-4 font-semibold">Branche</th>
+                            <th class="px-8 py-4 font-semibold">Use Case</th>
+                            <th class="px-8 py-4 font-semibold">Problem</th>
+                            <th class="px-8 py-4 font-semibold">Claude Lösung</th>
+                            <th class="px-8 py-4 font-semibold">ROI / Nutzen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="useCaseTable" class="divide-y divide-gray-100">
+                        <!-- Data will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Interactive ROI Calculator -->
+        <section class="bg-blue-50 p-8 rounded-3xl border border-blue-100 shadow-sm">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Einfacher ROI-Rechner</h2>
+                <p class="text-gray-600 mb-8">Berechne deine potenzielle Zeitersparnis durch Claude-Integration.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="text-left">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stunden pro Tag (Manuell)</label>
+                        <input type="number" id="hoursInput" value="4" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div class="text-left">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Durchschnittl. Stundensatz (€)</label>
+                        <input type="number" id="rateInput" value="80" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-inner grid grid-cols-2 gap-4">
+                    <div class="text-center p-4">
+                        <p class="text-xs uppercase text-gray-400 font-bold mb-1">Ersparnis (Stunden/Monat)</p>
+                        <p id="savedHours" class="text-3xl font-black text-blue-600">--</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <p class="text-xs uppercase text-gray-400 font-bold mb-1">Finanzieller Impact / Jahr</p>
+                        <p id="annualImpact" class="text-3xl font-black text-green-600">--</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-10 text-gray-400 text-sm">
+        <p>&copy; 2024 KI-Consulting App | Basierend auf Branchen-Analysen für Claude</p>
+    </footer>
+
+    <script>
+        const useCases = [
+            { industry: "Buchhaltung", case: "Rechnungseingang", problem: "Manuelle Erfassung von 5-50 Rechnungen täglich", solution: "PDF-Extraktion & Kontierung", roi: "80% Zeitersparnis" },
+            { industry: "Recht", case: "Vertragsmanagement", problem: "Versäumte Kündigungsfristen", solution: "Automatische Analyse & Erinnerung", roi: "Keine Versäumnisse" },
+            { industry: "Logistik", case: "Schadensdokumentation", problem: "Aufwändige Berichte", solution: "Foto → Strukturierter Bericht", roi: "70% schneller" },
+            { industry: "Bau/Handwerk", case: "Baustellendoku", problem: "Zeitaufwändige Bautagebücher", solution: "Sprache → ÖNORM-konforme Doku", roi: "5 statt 30 Min/Tag" },
+            { industry: "Immobilien/SV", case: "Gutachten-Erstellung", problem: "5-7 Stunden pro Gutachten", solution: "Auto-Bewertung via Dokumenten-Upload", roi: "50% Zeitersparnis" },
+            { industry: "Immobilien/SV", case: "Flächenberechnung", problem: "Fehleranfällige manuelle Messung", solution: "KI-Analyse von PDF-Plänen", roi: "Weniger Fehler" },
+            { industry: "Architektur", case: "ÖNORM A 2063", problem: "Komplexe Normanforderungen", solution: "Normkonforme Leistungsbeschreibungen", roi: "Compliance sicher" },
+            { industry: "QC", case: "Schweißnaht-Prüfung", problem: "Sichtprüfung zeitaufwändig", solution: "Foto-Analyse nach ISO 5817", roi: "Dokumentierte Prüfung" },
+            { industry: "Handel/Gastro", case: "Wareneingang", problem: "MHD & Allergene prüfen", solution: "Bild → Strukturierte Kontrolle", roi: "Hygiene-Compliance" },
+            { industry: "Gesundheit/Pflege", case: "Wunddokumentation", problem: "Zeitaufwändige Protokolle", solution: "Foto → Strukturierter Bericht", roi: "Standardisiert" }
+        ];
+
+        function renderTable(data) {
+            const tableBody = document.getElementById('useCaseTable');
+            tableBody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-blue-50 transition-colors duration-150';
+                row.innerHTML = `
+                    <td class="px-8 py-5 text-sm font-bold text-gray-700">${item.industry}</td>
+                    <td class="px-8 py-5 text-sm text-gray-600">${item.case}</td>
+                    <td class="px-8 py-5 text-sm text-gray-500 italic">${item.problem}</td>
+                    <td class="px-8 py-5 text-sm text-blue-700 font-medium">${item.solution}</td>
+                    <td class="px-8 py-5">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ${item.roi}
+                        </span>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterUseCases(industry) {
+            // Update Buttons UI
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            event.target.classList.add('bg-blue-600', 'text-white');
+
+            if (industry === 'all') {
+                renderTable(useCases);
+            } else {
+                const filtered = useCases.filter(u => u.industry.includes(industry));
+                renderTable(filtered);
+            }
+        }
+
+        function calculateROI() {
+            const dailyHours = parseFloat(document.getElementById('hoursInput').value) || 0;
+            const rate = parseFloat(document.getElementById('rateInput').value) || 0;
+            
+            // Assuming 60% average savings across all use cases as a baseline
+            const factor = 0.6; 
+            const workDaysPerMonth = 20;
+            const monthsPerYear = 12;
+
+            const savedHoursMonth = dailyHours * factor * workDaysPerMonth;
+            const annualImpact = savedHoursMonth * rate * monthsPerYear;
+
+            document.getElementById('savedHours').innerText = savedHoursMonth.toFixed(1);
+            document.getElementById('annualImpact').innerText = annualImpact.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+        }
+
+        // Listen for changes
+        document.getElementById('hoursInput').addEventListener('input', calculateROI);
+        document.getElementById('rateInput').addEventListener('input', calculateROI);
+
+        // Initial render
+        window.onload = () => {
+            renderTable(useCases);
+            calculateROI();
+        };
+    </script>
+</body>
+</html>
